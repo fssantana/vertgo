@@ -1,5 +1,6 @@
 ## Vertgo
 ---
+[![Build Status](https://travis-ci.org/fssantana/vertgo.svg?branch=master)](https://travis-ci.org/fssantana/vertgo)
 
 A tool to ease Lambda Functions development for Applications using Api Gateway
 
