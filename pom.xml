@@ -25,7 +25,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/fssantana/vertgo</connection>
-        <developerConnection>scm:git:ssh://github.com:fssantana/vertgo</developerConnection>
+        <developerConnection>scm:git:git://github.com:fssantana/vertgo.git</developerConnection>
         <url>http://github.com/fssantana/vertgo/tree/master</url>
     </scm>
 
