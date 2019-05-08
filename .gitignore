@@ -3,6 +3,8 @@
 /bin/
 target/
 
+*.sh
+
 # OS Files #
 .DS_Store
 
