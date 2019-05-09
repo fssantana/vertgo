@@ -11,7 +11,7 @@
 
     <groupId>io.github.fssantana</groupId>
     <artifactId>vertgo</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A tool to ease Lambda Functions development for Applications using Api Gateway.</description>
@@ -48,24 +48,8 @@
             <artifactId>vertx-web</artifactId>
             <version>3.7.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.squareup.dagger</groupId>
-            <artifactId>dagger</artifactId>
-            <version>1.2.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.dagger</groupId>
-            <artifactId>dagger-compiler</artifactId>
-            <version>1.2.5</version>
-            <optional>true</optional>
-        </dependency>
 
         <!-- Misc -->
-        <dependency>
-            <groupId>com.baidu.unbiz</groupId>
-            <artifactId>fluent-validator</artifactId>
-            <version>1.0.9</version>
-        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -143,14 +127,6 @@
                         <exclude>**/package-info.java</exclude>
                     </testExcludes>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.squareup.dagger</groupId>
-                        <artifactId>dagger-compiler</artifactId>
-                        <version>1.2.5</version>
-                        <optional>true</optional>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

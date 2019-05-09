@@ -1,5 +1,6 @@
 package io.github.fssantana.vertgo;
 
+import io.github.fssantana.vertgo.exception.HttpException;
 import io.github.fssantana.vertgo.request.LambdaRequest;
 import io.github.fssantana.vertgo.response.LambdaResponse;
 import com.google.common.reflect.TypeToken;
@@ -7,6 +8,15 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import java.util.Optional;
 
+/**
+ * @author fsantana
+ *
+ * Controller class which should be extended
+ *
+ * @since 0.1.0
+ * @param <I>
+ * @param <O>
+ */
 public abstract class Controller<I, O> {
 
     private Class<I> inputType;
@@ -18,10 +28,18 @@ public abstract class Controller<I, O> {
 
         TypeToken<O> outputTypeToken = new TypeToken<O>(getClass()) { };
         outputType = (Class<O>) outputTypeToken.getRawType();
+
     }
 
     private LambdaRequest lambdaRequest;
 
+    /**
+     *
+     * Execute method will be called when lambda is invoked
+     *
+     * @since 0.1.0
+     * @param event
+     */
     void execute(Message<LambdaRequest> event){
         lambdaRequest = event.body();
 
@@ -32,20 +50,46 @@ public abstract class Controller<I, O> {
             }else{
                 event.reply(JsonObject.mapFrom(response));
             }
-        }catch (Exception e){
+        } catch (HttpException e) {
+            LambdaResponse<Object> errorResponse = new LambdaResponse<>();
+            event.reply(e);
+        } catch (Exception e){
             e.printStackTrace();
             event.fail(500, e.getMessage());
         }
 
     }
 
+    /**
+     * Return a header entry
+     * @param key
+     *
+     */
     public Optional<String> getHeader(String key){
         return lambdaRequest.header(key);
     }
+
+    /**
+     * Return a path parameter value
+     *
+     * @param key
+     */
     public Optional<String> getPath(String key){
         return lambdaRequest.path(key);
     }
 
+    /**
+     * Should be implemented and return a string like {HTTP_METHOD}:{PATH}
+     * @return
+     */
     public abstract String route();
-    public abstract O handle(I input);
+
+    /**
+     *
+     * Should be implemented with controller logic
+     *
+     * @param input
+     * @return
+     */
+    public abstract O handle(I input) throws HttpException;
 }
