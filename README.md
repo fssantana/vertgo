@@ -41,7 +41,7 @@ public class ExampleController extends Controller<HashMap, LambdaResponse<Map>> 
     * 
     **/
     @Override
-    public LambdaResponse<Map> handle(HashMap input) {
+    public LambdaResponse<Map> handle(HashMap input) throws io.github.fssantana.vertgo.exception.HttpException{
         LambdaResponse<Map> response = new LambdaResponse<>();
         response.setBody(Collections.singletonMap("teste", "testeadas"));
         return response;
