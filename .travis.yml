@@ -11,6 +11,9 @@ deploy:
   provider: releases
   api_key:
     secure: gnkvZHqNM0iopQIMzOknE2een3WLJms/upNFnJLUnI9mMQoS+9Te5yLaUOFk72n5fIGyG51NAafNF4m3Gdc8ubMxNPJNWZSxYCDvx1qgnZIfrBC0E6nm/XbkpqFby2LDjC4M5L1V9pmRWARFu6SVg5X8MPVPmSg1i5GrJ/S2I7rB0dD5HV0Q9bwQcdvTXLDL82y5EmyFEHmdynKQyNQkxng4VMXB1fqQVkC+yIoGTmxpOgPSRMfzDULmfgGZNQQlocWX3aEcW9356t+K750yyGRYJFdwE8zahViBS6nmYlVrBR0+Esk0lT/+ZNlYcTsGZsqQ19GkTnWTJI+foc/qeHmX1nUa+1Zg8+USDjctQ73azTV06jbvERs+L5rlbpFxYKMBipXBSsWLjp+kOUCiyCM/pop0AcDcMzQrxf/LYAuaSoJHMd3GUTJonFmulCSwJmMKTfUfzUKIE7+TkAL8uCcfqW+twwtR+v9f0GIb2mktseIUcjIeXs4HPqaZyawPbsPwWz4PPHMxwdonyaJVK2QIM2au3Venwas5mmDyb185JjuLrs6wrvrtnlsk1lRddZS1oszOmIR5MQ4Yk5KGSxlp3ZZnsqLKYLQqpl5MMPhOJNDo/BnQOKpM7pFeZuXzgyPAKSGZdothiiJ7pro6sx1XTxYfXz6WhzR4+lEvbvs=
-  file: ''
+  file:
+      - apiee-core/target/vertgo.jar
+  skip_cleanup: true
   on:
     repo: fssantana/vertgo
+  name: $project_version
