@@ -176,6 +176,12 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
             response.put(IS_BASE_64, lambdaResponse.isBase64());
             response.put(HEADERS, lambdaResponse.getHeaders() != null ? lambdaResponse.getHeaders() : null);
             response.put(STATUS_CODE, lambdaResponse.getStatusCode());
+        }else if(body instanceof HttpException){
+            HttpException lambdaResponse = (HttpException) body;
+            response.put(BODY, Json.encode(lambdaResponse.getResponseBody()));
+            response.put(IS_BASE_64, false);
+            response.put(HEADERS, lambdaResponse.getHeaders() != null ? lambdaResponse.getHeaders() : null);
+            response.put(STATUS_CODE, lambdaResponse.getStatusCode());
         }else{
             response.put(BODY, Json.encode(body));
             response.put(IS_BASE_64, false);
