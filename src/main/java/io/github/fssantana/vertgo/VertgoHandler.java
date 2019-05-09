@@ -159,7 +159,7 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
     }
 
     private AbstractVerticle deployables(){
-        List<? extends Controller> router = router();
+        List<Controller> router = router();
         if(router == null || router.isEmpty()){
             return null;
         }
@@ -173,6 +173,6 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
         };
     }
 
-    protected abstract List<? extends Controller> router();
+    protected abstract List<Controller> router();
 
 }
