@@ -11,7 +11,7 @@
 
     <groupId>io.github.fssantana</groupId>
     <artifactId>vertgo</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.0-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A tool to ease Lambda Functions development for Applications using Api Gateway.</description>
