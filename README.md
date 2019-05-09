@@ -15,4 +15,51 @@ Some tools:
 * Routing
 * Serializations for inputs and responses
 * Custom configurations
-* Request validation
+
+How to use:
+* Each controller will have one route associated
+
+```java
+public class ExampleController extends Controller<HashMap, LambdaResponse<Map>> {
+
+    /**
+    *  route {HTTP_METHOD}:{PATH} 
+    */
+    @Override
+    public String route() {
+        return "GET:/users";
+    }
+
+    /**
+    * Service execution override handle method
+    * This method can return any bean or a LambdaResponse<O> instance.
+    * If a LambdaResponse instance is returned, you can set status code and headers;
+    * If another instance is returned, default status code (200) and empty headers will be returned
+    **/
+    @Override
+    public LambdaResponse<Map> handle(HashMap input) {
+        LambdaResponse<Map> response = new LambdaResponse<>();
+        response.setBody(Collections.singletonMap("teste", "testeadas"));
+        return response;
+    }
+}
+```
+
+* Create a Route class wich needs to contains all Controllers you want to use
+```java
+public class Routes extends VertgoHandler {
+
+    /**
+    * All controllers should be here 
+    */
+    @Override
+    protected List<Controller> router() {
+        return Arrays.asList(
+                new ExampleController()
+        );
+    }
+
+}
+```
+
+}
