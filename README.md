@@ -65,5 +65,3 @@ public class Routes extends VertgoHandler {
 
 }
 ```
-
-}
