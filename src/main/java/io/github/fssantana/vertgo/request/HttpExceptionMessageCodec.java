@@ -5,6 +5,9 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonObject;
 
+/**
+ * Vertx message codec
+ */
 public class HttpExceptionMessageCodec implements MessageCodec<HttpException, HttpException> {
 
   @Override

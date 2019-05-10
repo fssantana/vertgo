@@ -4,6 +4,9 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonObject;
 
+/**
+ * Vertex message codec
+ */
 public class LambdaRequestMessageCodec implements MessageCodec<LambdaRequest, LambdaRequest> {
 
   @Override
