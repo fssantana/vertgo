@@ -11,7 +11,7 @@
 
     <groupId>io.github.fssantana</groupId>
     <artifactId>vertgo</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A tool to ease Lambda Functions development for Applications using Api Gateway.</description>
@@ -59,6 +59,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>27.1-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
 
         <!-- AWS -->

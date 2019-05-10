@@ -3,6 +3,11 @@ package io.github.fssantana.vertgo.request;
 import io.vertx.core.json.JsonObject;
 import java.util.Optional;
 
+/**
+ *
+ * Request converted from lambda income
+ *
+ */
 public class LambdaRequest {
 
     private JsonObject request;
