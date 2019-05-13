@@ -21,7 +21,7 @@ public class ExampleController extends Controller<HashMap, LambdaResponse<Map>> 
         response.setBody(Collections.singletonMap("teste", "testeadas"));
         HttpException httpException = new HttpException();
 
-        httpException.setHeaders(Collections.emptyMap());
+        httpException.setHeaders(Collections.singletonMap("aaa", "112312"));
         httpException.setStatusCode(400);
         httpException.setResponseBody(Collections.singletonMap("teste", "testeadas"));
 

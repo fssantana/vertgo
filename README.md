@@ -65,3 +65,32 @@ public class Routes extends VertgoHandler {
 
 }
 ```
+
+If you want to set a default header value that will go in every response, just override the Route method like this:
+```java
+
+public class Routes extends VertgoHandler {
+
+    /**
+    * All controllers should be here 
+    */
+    @Override
+    protected List<Controller> router() {
+        return Arrays.asList(
+                new ExampleController()
+        );
+    }
+    
+    /**
+    * These headers will be add to every response.
+    * Preference is given for LambdaResponse header value in case of conflict
+    */
+    @Override
+    protected Map<String, String> addHeaders(){
+        HashMap<String, String> objectObjectHashMap = new HashMap<>();
+        objectObjectHashMap.put("aaa", "bbb");
+        return objectObjectHashMap;
+    }
+
+}
+```
