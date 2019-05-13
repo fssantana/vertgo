@@ -5,9 +5,7 @@ import io.github.fssantana.vertgo.Controller;
 import io.github.fssantana.vertgo.VertgoHandler;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Routes extends VertgoHandler {
 
@@ -16,6 +14,13 @@ public class Routes extends VertgoHandler {
         return Arrays.asList(
                 new ExampleController()
         );
+    }
+
+    @Override
+    protected Map<String, String> addHeaders(){
+        HashMap<String, String> objectObjectHashMap = new HashMap<>();
+        objectObjectHashMap.put("aaa", "bbb");
+        return objectObjectHashMap;
     }
 
     public static void  main(String[] args) throws IOException {

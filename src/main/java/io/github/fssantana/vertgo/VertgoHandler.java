@@ -176,24 +176,24 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
         if (body == null){
             response.put(BODY, null);
             response.put(IS_BASE_64, false);
-            response.put(HEADERS, Collections.emptyMap());
+            response.put(HEADERS, addCustomHeaders(new HashMap<>()));
             response.put(STATUS_CODE, S_200);
         } else if(body instanceof LambdaResponse){
             LambdaResponse lambdaResponse = (LambdaResponse) body;
             response.put(BODY, Json.encode(lambdaResponse.getBody()));
             response.put(IS_BASE_64, lambdaResponse.isBase64());
-            response.put(HEADERS, lambdaResponse.getHeaders() != null ? lambdaResponse.getHeaders() : null);
+            response.put(HEADERS, addCustomHeaders(lambdaResponse.getHeaders() != null ? lambdaResponse.getHeaders() : new HashMap<>()));
             response.put(STATUS_CODE, lambdaResponse.getStatusCode());
         }else if(body instanceof HttpException){
             HttpException lambdaResponse = (HttpException) body;
             response.put(BODY, Json.encode(lambdaResponse.getResponseBody()));
             response.put(IS_BASE_64, false);
-            response.put(HEADERS, lambdaResponse.getHeaders() != null ? lambdaResponse.getHeaders() : null);
+            response.put(HEADERS, addCustomHeaders(lambdaResponse.getHeaders() != null ? lambdaResponse.getHeaders() : new HashMap<>()));
             response.put(STATUS_CODE, lambdaResponse.getStatusCode());
         }else{
             response.put(BODY, Json.encode(body));
             response.put(IS_BASE_64, false);
-            response.put(HEADERS, Collections.emptyMap());
+            response.put(HEADERS, addCustomHeaders(new HashMap<>()));
             response.put(STATUS_CODE, S_200);
         }
 
@@ -242,5 +242,28 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
     }
 
     protected abstract List<Controller> router();
+
+    protected Map<String, String> addHeaders(){
+        return null;
+    }
+
+    private Map<String, String> addCustomHeaders(Map<String, String> headers){
+        Map<String, String> customHeaders = addHeaders();
+
+        if(customHeaders == null || customHeaders.isEmpty()){
+            return headers;
+        }
+
+        HashMap<String, String> finalHeaders = new HashMap<>();
+        finalHeaders.putAll(headers);
+
+        for(Map.Entry<String, String> e : customHeaders.entrySet()){
+            if(!finalHeaders.containsKey(e.getKey())){
+                finalHeaders.put(e.getKey(), e.getValue());
+            }
+        }
+
+        return finalHeaders;
+    }
 
 }
