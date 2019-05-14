@@ -107,7 +107,7 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
                 });
 
         try {
-            return future.get(30, TimeUnit.SECONDS);
+            return future.get(getTimeout(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             LOGGER.debug("error", e);
         } catch (ExecutionException e) {
@@ -242,6 +242,19 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
     }
 
     protected abstract List<Controller> router();
+
+    /**
+     * Override this method to set an application timeout
+     *
+     * @return
+     */
+    public int timeout(){
+        return 60;
+    }
+
+    private int getTimeout(){
+        return timeout();
+    }
 
     protected Map<String, String> addHeaders(){
         return null;
