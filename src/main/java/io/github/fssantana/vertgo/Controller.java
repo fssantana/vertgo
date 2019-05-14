@@ -66,6 +66,9 @@ public abstract class Controller<I, O> {
      *
      */
     public Optional<String> getHeader(String key){
+        if(lambdaRequest.getHeaders() == null || lambdaRequest.getHeaders().isEmpty()){
+            return Optional.empty();
+        }
         return lambdaRequest.header(key);
     }
 
@@ -75,6 +78,9 @@ public abstract class Controller<I, O> {
      * @param key
      */
     public Optional<String> getPath(String key){
+        if(lambdaRequest.getPathParams() == null || lambdaRequest.getPathParams().isEmpty()){
+            return Optional.empty();
+        }
         return lambdaRequest.path(key);
     }
 
