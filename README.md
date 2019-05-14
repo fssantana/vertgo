@@ -94,3 +94,14 @@ public class Routes extends VertgoHandler {
 
 }
 ```
+
+
+### Add as Maven dependency
+* Add as maven dependency
+```xml
+<dependency>
+  <groupId>io.github.fssantana</groupId>
+  <artifactId>vertgo</artifactId>
+  <version>1.1.0</version>
+</dependency>
+```
