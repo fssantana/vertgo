@@ -109,11 +109,11 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
         try {
             return future.get(getTimeout(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            LOGGER.debug("error", e);
+            LOGGER.debug("Interrupted error", e);
         } catch (ExecutionException e) {
-            LOGGER.debug("error", e);
+            LOGGER.debug("Execution error", e);
         } catch (TimeoutException e) {
-            LOGGER.debug("error", e);
+            LOGGER.debug("Thread Timeout", e);
             future.cancel(true);
         }
         return null;
