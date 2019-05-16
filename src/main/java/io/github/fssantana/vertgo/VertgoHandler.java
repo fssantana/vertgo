@@ -114,6 +114,7 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
             LOGGER.debug("error", e);
         } catch (TimeoutException e) {
             LOGGER.debug("error", e);
+            future.cancel(true);
         }
         return null;
     }
