@@ -131,15 +131,22 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
             request.setRequest(new JsonObject(body));
         }else if(input.getJsonObject(QUERY_STRING_PARAMETERS) != null){
             request.setRequest(input.getJsonObject(QUERY_STRING_PARAMETERS));
+        }else{
+            request.setRequest(null);
         }
 
         if(input.getJsonObject(PATH_PARAMETERS) != null){
             request.setPathParams(input.getJsonObject(PATH_PARAMETERS));
+        }else{
+            request.setPathParams(null);
         }
 
         if(input.getJsonObject(HEADERS) != null){
             request.setHeaders(input.getJsonObject(HEADERS));
+        }else{
+            request.setHeaders(null);
         }
+
         return request;
     }
 

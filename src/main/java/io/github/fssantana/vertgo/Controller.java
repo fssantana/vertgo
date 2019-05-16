@@ -44,7 +44,11 @@ public abstract class Controller<I, O> {
         lambdaRequest = event.body();
 
         try{
-            O response = this.handle(event.body().getRequest().mapTo(inputType));
+            I input = null;
+            if(inputType != Void.class && event.body().getRequest() != null){
+                input = event.body().getRequest().mapTo(inputType);
+            }
+            O response = this.handle(input);
             if(response != null && response instanceof LambdaResponse){
                 event.reply(response);
             }else{
