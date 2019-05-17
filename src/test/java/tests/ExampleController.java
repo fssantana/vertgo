@@ -28,9 +28,4 @@ public class ExampleController extends Controller<InputExample, LambdaResponse<M
         throw httpException;
     }
 
-    @Override
-    public boolean shouldCreateInstanceIfNull(){
-        return false;
-    }
-
 }

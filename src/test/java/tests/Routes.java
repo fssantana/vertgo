@@ -39,10 +39,9 @@ public class Routes extends VertgoHandler {
         input.put("queryStringParameters", queryStringParameters);
         input.put("pathParameters", pathParameters);
         input.put("headers", headers);
-        input.put("body", new ObjectMapper().writeValueAsString(body));
+        input.put("body", "null");
 
         Map<String, Object> resp = routes.handleRequest(input, null);
-        System.out.println(resp);
     }
 
 }

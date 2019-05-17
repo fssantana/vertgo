@@ -14,6 +14,7 @@ import io.vertx.core.*;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import org.apache.log4j.Logger;
@@ -130,7 +131,12 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
 
         String body = input.getString(BODY, null);
         if(body != null){
-            request.setRequest(new JsonObject(body));
+            try{
+                request.setRequest(new JsonObject(body));
+            }catch (DecodeException e){
+                LOGGER.debug("Decode exception - invalid input", e);
+                return null;
+            }
         }else if(input.getJsonObject(QUERY_STRING_PARAMETERS) != null){
             request.setRequest(input.getJsonObject(QUERY_STRING_PARAMETERS));
         }else{
