@@ -25,7 +25,7 @@ public class Routes extends VertgoHandler {
 
     public static void  main(String[] args) throws IOException {
         Routes routes = new Routes();
-        String json = "{\"httpMethod\": \"GET\", \"resource\": \"/users\", \"body\": \"{}\"}";
+        String json = "{\"httpMethod\": \"GET\", \"resource\": \"/users\", \"body\": null}";
         Map<String, Object> income = new ObjectMapper().readValue(json, Map.class);
 
         Map<String, Object> stringObjectMap = routes.handleRequest(income, null);

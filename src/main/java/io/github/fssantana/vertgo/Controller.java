@@ -47,8 +47,14 @@ public abstract class Controller<I, O> {
             I input = null;
             if(inputType != Void.class && event.body().getRequest() != null){
                 input = event.body().getRequest().mapTo(inputType);
+            }else if(inputType != Void.class && this.shouldCreateInstanceIfNull()){
+                input = inputType.newInstance();
+            }else{
+                input = null;
             }
+
             O response = this.handle(input);
+
             if(response != null && response instanceof LambdaResponse){
                 event.reply(response);
             }else{
@@ -102,4 +108,17 @@ public abstract class Controller<I, O> {
      * @return
      */
     public abstract O handle(I input) throws HttpException;
+
+    /**
+     *
+     * If this method returns true it will always create an instance from input type
+     * even if request body is empty
+     *
+     * Default is true. Override this to change its behavior
+     *
+     * @return
+     */
+    public boolean shouldCreateInstanceIfNull(){
+        return true;
+    }
 }
