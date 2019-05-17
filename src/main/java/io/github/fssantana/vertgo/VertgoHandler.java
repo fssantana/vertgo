@@ -2,10 +2,12 @@ package io.github.fssantana.vertgo;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import io.github.fssantana.vertgo.exception.HttpException;
 import io.github.fssantana.vertgo.request.HttpExceptionMessageCodec;
 import io.github.fssantana.vertgo.request.LambdaRequest;
 import io.github.fssantana.vertgo.request.LambdaRequestMessageCodec;
+import io.github.fssantana.vertgo.request.UnrecognizedPropertyExceptionCodec;
 import io.github.fssantana.vertgo.response.LambdaResponse;
 import io.github.fssantana.vertgo.response.LambdaResponseMessageCodec;
 import io.vertx.core.*;
@@ -15,7 +17,6 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import org.apache.log4j.Logger;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,7 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
     private final HttpExceptionMessageCodec exceptionCodec = new HttpExceptionMessageCodec();
     private final LambdaRequestMessageCodec requestCodec =   new LambdaRequestMessageCodec();
     private final LambdaResponseMessageCodec responseCodec = new LambdaResponseMessageCodec();
+    private final UnrecognizedPropertyExceptionCodec propertyExceptionCodec = new UnrecognizedPropertyExceptionCodec();
 
     protected final Vertx vertxInstance =                    getVertxInstance();
 
@@ -198,6 +200,8 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
             response.put(IS_BASE_64, false);
             response.put(HEADERS, addCustomHeaders(lambdaResponse.getHeaders() != null ? lambdaResponse.getHeaders() : new HashMap<>()));
             response.put(STATUS_CODE, lambdaResponse.getStatusCode());
+        }else if(body instanceof UnrecognizedPropertyException){
+            response = buildParseException((UnrecognizedPropertyException) body);
         }else{
             response.put(BODY, Json.encode(body));
             response.put(IS_BASE_64, false);
@@ -207,6 +211,47 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
 
         LOGGER.debug(String.format("%s", response));
         return response;
+    }
+
+    /**
+     * Build response error for unrecognized property
+     *
+     * @param error
+     * @return
+     */
+    private Map<String,Object> buildParseException(UnrecognizedPropertyException error){
+        Map<String, Object> response = new HashMap<>();
+        LambdaResponse<?> lambdaResponse = unrecognizedPropertyError(error.getPropertyName(), error.getMessage());
+
+        response.put(BODY, Json.encode(lambdaResponse.getBody()));
+        response.put(IS_BASE_64, false);
+        response.put(HEADERS, addCustomHeaders(lambdaResponse.getHeaders() != null ? lambdaResponse.getHeaders() : new HashMap<>()));
+        response.put(STATUS_CODE, lambdaResponse.getStatusCode());
+
+        return response;
+    }
+
+    /**
+     *
+     * This method return default error response for json with unrecognized property
+     * Override this method to set a default error response for unrecognized property
+     *
+     * @return
+     * @param path
+     * @param message
+     */
+    public LambdaResponse<? extends Object> unrecognizedPropertyError(String path, String message){
+        Map<String, String> map = new HashMap<>();
+        map.put("message", "Invalid JSON property");
+        map.put("field", path);
+
+        LambdaResponse<Map> lambdaResponse = new LambdaResponse<>();
+        lambdaResponse.setHeaders(new HashMap<>());
+        lambdaResponse.setStatusCode(400);
+        lambdaResponse.setBase64(false);
+        lambdaResponse.setBody(map);
+
+        return lambdaResponse;
     }
 
     /**
@@ -227,7 +272,8 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
                 .eventBus()
                 .registerDefaultCodec(LambdaRequest.class, requestCodec)
                 .registerDefaultCodec(LambdaResponse.class, responseCodec)
-                .registerDefaultCodec(HttpException.class, exceptionCodec);
+                .registerDefaultCodec(HttpException.class, exceptionCodec)
+                .registerDefaultCodec(UnrecognizedPropertyException.class, propertyExceptionCodec);
 
         return vertx;
     }

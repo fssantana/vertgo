@@ -1,11 +1,13 @@
 package io.github.fssantana.vertgo;
 
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import io.github.fssantana.vertgo.exception.HttpException;
 import io.github.fssantana.vertgo.request.LambdaRequest;
 import io.github.fssantana.vertgo.response.LambdaResponse;
 import com.google.common.reflect.TypeToken;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
+import org.apache.log4j.Logger;
 import java.util.Optional;
 
 /**
@@ -19,8 +21,10 @@ import java.util.Optional;
  */
 public abstract class Controller<I, O> {
 
+    private static final Logger LOGGER = Logger.getLogger(VertgoHandler.class);
     private Class<I> inputType;
     private Class<O> outputType;
+
 
     public Controller() {
         TypeToken<I> inputTypeToken = new TypeToken<I>(getClass()) { };
@@ -49,8 +53,6 @@ public abstract class Controller<I, O> {
                 input = event.body().getRequest().mapTo(inputType);
             }else if(inputType != Void.class && this.shouldCreateInstanceIfNull()){
                 input = inputType.newInstance();
-            }else{
-                input = null;
             }
 
             O response = this.handle(input);
@@ -61,13 +63,17 @@ public abstract class Controller<I, O> {
                 event.reply(JsonObject.mapFrom(response));
             }
         } catch (HttpException e) {
-            LambdaResponse<Object> errorResponse = new LambdaResponse<>();
             event.reply(e);
         } catch (Exception e){
-            e.printStackTrace();
-            event.fail(500, e.getMessage());
+            if(e.getCause() != null && e.getCause() instanceof UnrecognizedPropertyException){
+                LOGGER.error("JSON parse error", e);
+                UnrecognizedPropertyException cause = (UnrecognizedPropertyException) e.getCause();
+                event.reply(cause);
+            }else{
+                LOGGER.error(e);
+                event.fail(500, e.getMessage());
+            }
         }
-
     }
 
     /**

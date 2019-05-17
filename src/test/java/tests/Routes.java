@@ -3,6 +3,7 @@ package tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.fssantana.vertgo.Controller;
 import io.github.fssantana.vertgo.VertgoHandler;
+import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
 import java.util.*;
@@ -25,11 +26,23 @@ public class Routes extends VertgoHandler {
 
     public static void  main(String[] args) throws IOException {
         Routes routes = new Routes();
-        String json = "{\"httpMethod\": \"GET\", \"resource\": \"/users\", \"body\": null}";
-        Map<String, Object> income = new ObjectMapper().readValue(json, Map.class);
+        Map<String, String> queryStringParameters = null;
+        Map<String, String> pathParameters = null;
+        Map<String, String> headers = null;
+        Map<String, Object> body = new HashMap<>();
 
-        Map<String, Object> stringObjectMap = routes.handleRequest(income, null);
-        System.out.println(stringObjectMap);
+        body.put("pet", "foo");
+
+        Map<String, Object> input = new HashMap<>();
+        input.put("httpMethod", "GET");
+        input.put("resource", "/users");
+        input.put("queryStringParameters", queryStringParameters);
+        input.put("pathParameters", pathParameters);
+        input.put("headers", headers);
+        input.put("body", new ObjectMapper().writeValueAsString(body));
+
+        Map<String, Object> resp = routes.handleRequest(input, null);
+        System.out.println(resp);
     }
 
 }

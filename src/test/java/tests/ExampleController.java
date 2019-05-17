@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExampleController extends Controller<HashMap, LambdaResponse<Map>> {
+public class ExampleController extends Controller<InputExample, LambdaResponse<Map>> {
 
     @Override
     public String route() {
@@ -16,7 +16,7 @@ public class ExampleController extends Controller<HashMap, LambdaResponse<Map>> 
     }
 
     @Override
-    public LambdaResponse<Map> handle(HashMap input) throws HttpException {
+    public LambdaResponse<Map> handle(InputExample input) throws HttpException {
         LambdaResponse<Map> response = new LambdaResponse<>();
         response.setBody(Collections.singletonMap("teste", "testeadas"));
         HttpException httpException = new HttpException();
@@ -26,6 +26,11 @@ public class ExampleController extends Controller<HashMap, LambdaResponse<Map>> 
         httpException.setResponseBody(Collections.singletonMap("teste", "testeadas"));
 
         throw httpException;
+    }
+
+    @Override
+    public boolean shouldCreateInstanceIfNull(){
+        return false;
     }
 
 }
