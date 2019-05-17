@@ -216,7 +216,10 @@ public abstract class VertgoHandler implements RequestHandler<Map<String, Object
     private final Vertx getVertxInstance() {
         LOGGER.debug("Creating Vertx instance");
         System.setProperty("vertx.disableFileCPResolving", "true");
-        final Vertx vertx = Vertx.vertx(new VertxOptions().setBlockedThreadCheckInterval(1000 * 60 * 60));
+        final Vertx vertx = Vertx.vertx(new VertxOptions()
+                .setMaxEventLoopExecuteTime(40000L)
+                .setMaxEventLoopExecuteTimeUnit(TimeUnit.MILLISECONDS)
+        );
 
         vertx.deployVerticle(deployables());
 
