@@ -35,21 +35,20 @@ import java.util.concurrent.TimeoutException;
  */
 public abstract class VertgoHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
 
-    private static final Logger LOGGER =                     Logger.getLogger(VertgoHandler.class);
-    private static final String HEADERS =                    "headers";
-    private static final String PATH_PARAMETERS =            "pathParameters";
-    private static final String QUERY_STRING_PARAMETERS =    "queryStringParameters";
-    private static final String BODY =                       "body";
-    private static final String HTTP_METHOD =                "httpMethod";
-    private static final String RESOURCE =                   "resource";
-    private static final String IS_BASE_64 =                 "isBase64Encoded";
-    private static final String STATUS_CODE =                "statusCode";
-    private static final int S_500 =                         500;
-    private static final int S_200 =                         200;
-
-    private final HttpExceptionMessageCodec exceptionCodec = new HttpExceptionMessageCodec();
-    private final LambdaRequestMessageCodec requestCodec =   new LambdaRequestMessageCodec();
-    private final LambdaResponseMessageCodec responseCodec = new LambdaResponseMessageCodec();
+    private static final Logger LOGGER =                                      Logger.getLogger(VertgoHandler.class);
+    private static final String HEADERS =                                     "headers";
+    private static final String PATH_PARAMETERS =                             "pathParameters";
+    private static final String QUERY_STRING_PARAMETERS =                     "queryStringParameters";
+    private static final String BODY =                                        "body";
+    private static final String HTTP_METHOD =                                 "httpMethod";
+    private static final String RESOURCE =                                    "resource";
+    private static final String IS_BASE_64 =                                  "isBase64Encoded";
+    private static final String STATUS_CODE =                                 "statusCode";
+    private static final int S_500 =                                          500;
+    private static final int S_200 =                                          200;
+    private final HttpExceptionMessageCodec exceptionCodec =                  new HttpExceptionMessageCodec();
+    private final LambdaRequestMessageCodec requestCodec   =                  new LambdaRequestMessageCodec();
+    private final LambdaResponseMessageCodec responseCodec =                  new LambdaResponseMessageCodec();
     private final UnrecognizedPropertyExceptionCodec propertyExceptionCodec = new UnrecognizedPropertyExceptionCodec();
 
     protected final Vertx vertxInstance =                    getVertxInstance();
