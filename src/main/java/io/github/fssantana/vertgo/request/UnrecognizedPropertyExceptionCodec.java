@@ -1,7 +1,6 @@
 package io.github.fssantana.vertgo.request;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
-import io.github.fssantana.vertgo.exception.HttpException;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonObject;
@@ -9,7 +8,8 @@ import io.vertx.core.json.JsonObject;
 /**
  * Vertx message codec
  */
-public class UnrecognizedPropertyExceptionCodec implements MessageCodec<UnrecognizedPropertyException, UnrecognizedPropertyException> {
+public class UnrecognizedPropertyExceptionCodec implements
+    MessageCodec<UnrecognizedPropertyException, UnrecognizedPropertyException> {
 
   @Override
   public void encodeToWire(Buffer buffer, UnrecognizedPropertyException exception) {
@@ -29,7 +29,7 @@ public class UnrecognizedPropertyExceptionCodec implements MessageCodec<Unrecogn
 
     int length = buffer.getInt(_pos);
 
-    String jsonStr = buffer.getString(_pos+=4, _pos+=length);
+    String jsonStr = buffer.getString(_pos += 4, _pos += length);
     JsonObject contentJson = new JsonObject(jsonStr);
     return contentJson.mapTo(UnrecognizedPropertyException.class);
   }

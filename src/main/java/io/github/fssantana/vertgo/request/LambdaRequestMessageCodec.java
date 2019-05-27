@@ -27,7 +27,7 @@ public class LambdaRequestMessageCodec implements MessageCodec<LambdaRequest, La
 
     int length = buffer.getInt(_pos);
 
-    String jsonStr = buffer.getString(_pos+=4, _pos+=length);
+    String jsonStr = buffer.getString(_pos += 4, _pos += length);
     JsonObject contentJson = new JsonObject(jsonStr);
     return contentJson.mapTo(LambdaRequest.class);
   }

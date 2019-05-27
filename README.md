@@ -95,6 +95,34 @@ public class Routes extends VertgoHandler {
 }
 ```
 
+Override filter method to execute before all controllers handlers
+```java
+public class Routes extends VertgoHandler {
+ //...
+  protected ControllerFilter filter() {
+      return new ControllerFilter() {
+        @Override
+        public void apply(LambdaRequest request) throws HttpException {
+          //Your code here
+        }
+      };
+    }
+}
+```
+
+
+Override filter method to execute before all controllers handlers
+```java
+public class MyController extends Controller {
+ //...
+   @Override
+    protected void before(){
+      //getRawBody();
+      //Your code
+    }
+}
+```
+
 
 ### Add as Maven dependency
 * Add as maven dependency
@@ -102,6 +130,6 @@ public class Routes extends VertgoHandler {
 <dependency>
   <groupId>io.github.fssantana</groupId>
   <artifactId>vertgo</artifactId>
-  <version>1.1.0</version>
+  <version>1.4.0</version>
 </dependency>
 ```
